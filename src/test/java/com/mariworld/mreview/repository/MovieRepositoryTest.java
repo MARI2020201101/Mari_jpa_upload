@@ -57,4 +57,13 @@ public class MovieRepositoryTest {
             System.out.println(Arrays.toString(movie));
         }
     }
+
+    @Test
+    public void getMovieTest(){
+        List<Object[]> movies = movieRepository.getMovieWithAll(1L);
+        for(Object[] movie : movies){
+            //Arrays.stream(movie).forEach(System.out::println);
+            System.out.println(Arrays.toString(movie));
+        }
+    }
 }

@@ -35,4 +35,11 @@ public class ReviewRepositoryTest {
             reviewRepository.save(review);
         });
     }
+
+    @Test
+    public void findByMovieTest(){
+        reviewRepository.findByMovie(
+                Movie.builder().mno(3L).build())
+                .stream().forEach(System.out::println);
+    }
 }
