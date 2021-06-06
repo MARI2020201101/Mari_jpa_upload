@@ -6,8 +6,10 @@ import com.mariworld.mreview.entity.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 import javax.print.attribute.IntegerSyntax;
+import javax.transaction.Transactional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -15,6 +17,9 @@ public class ReviewRepositoryTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
     public void insertReviews(){
@@ -41,5 +46,14 @@ public class ReviewRepositoryTest {
         reviewRepository.findByMovie(
                 Movie.builder().mno(3L).build())
                 .stream().forEach(System.out::println);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void deleteByMemberTest(){
+        reviewRepository.deleteByMember(Member.builder().mid(2L).build());
+        memberRepository.deleteById(2L);
+
     }
 }

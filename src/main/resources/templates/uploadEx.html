@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Page</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Upload Page</h1>
+<div>
+  <input name="uploadFiles" type="file" multiple>
+  <button class="uploadBtn">Upload</button>
+</div>
+<div class="uploadResult"></div>
+<script>
+    $(document).ready(function(){
+        $(".uploadBtn").on("click",function (e){
+            var formData = new FormData();
+            var files = $("input[name=uploadFiles]")[0].files;
+            console.log(files);
+            for(i=0; i<files.length; i++){
+                formData.append("uploadFiles", files[i]);
+                console.log(files[i]);
+            }
+            $.ajax({
+                url:"/uploadAjax",
+                type:"post",
+                processData: false,
+                contentType: false,
+                data: formData,
+                dataType : 'json',
+                success: function(result){
+                    console.log(result);
+                    showUploadResult(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown){
+                    console.log(textStatus);
+                }
+
+            });
+
+            function showUploadResult(arr){
+               var divArea = $(".uploadResult");
+               for(i=0; i<arr.length ; i++){
+                   divArea.append("<img src='/display?fileName="+arr[i].thumbnailURL+"'>");
+               }
+            }
+    });
+
+  });
+</script>
+</body>
+</html>
